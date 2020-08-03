@@ -18,39 +18,80 @@ function listenToMouse(canvas) {
         y: undefined
     }
 
-    canvas.onmousedown = (e) => {
-        let x = e.clientX
-        let y = e.clientY
-        using = true
-        if (eraserEnabled) {
-            ctx.clearRect(x - 5, y - 5, 10, 10)
-        } else {
-            lastPoint = {
-                x,
-                y
+    // 特性检测
+    if (document.body.ontouchstart !== undefined) {
+        //触屏设备
+        canvas.ontouchstart = (e) => {
+            let x = e.touches[0].clientX
+            let y = e.touches[0].clientY
+            using = true
+            if (eraserEnabled) {
+                ctx.clearRect(x - 5, y - 5, 10, 10)
+            } else {
+                lastPoint = {
+                    x,
+                    y
+                }
+            }
+            
+        }
+
+        canvas.ontouchmove = (e) => {
+            let x = e.touches[0].clientX
+            let y = e.touches[0].clientY
+            if (!using) return
+            
+            if (eraserEnabled) {
+                ctx.clearRect(x - 5, y - 5, 10, 10)
+            } else {
+                drawLine(lastPoint.x, lastPoint.y, x, y)
+                lastPoint = {
+                    x,
+                    y
                 }
             }
         }
 
-    canvas.onmousemove = (e) => {
-        let x = e.clientX
-        let y = e.clientY
-        if (!using) return
-        
-        if (eraserEnabled) {
-            ctx.clearRect(x - 5, y - 5, 10, 10)
-        } else {
-            drawLine(lastPoint.x, lastPoint.y, x, y)
-            lastPoint = {
-                x,
-                y
+        canvas.ontouchend = () => {
+            using = false
+        }
+    } else {
+        //非触屏设备
+        canvas.onmousedown = (e) => {
+            let x = e.clientX
+            let y = e.clientY
+            using = true
+            if (eraserEnabled) {
+                ctx.clearRect(x - 5, y - 5, 10, 10)
+            } else {
+                lastPoint = {
+                    x,
+                    y
+                }
             }
         }
+    
+        canvas.onmousemove = (e) => {
+            let x = e.clientX
+            let y = e.clientY
+            if (!using) return
+            
+            if (eraserEnabled) {
+                ctx.clearRect(x - 5, y - 5, 10, 10)
+            } else {
+                drawLine(lastPoint.x, lastPoint.y, x, y)
+                lastPoint = {
+                    x,
+                    y
+                }
+            }
+        }
+    
+        canvas.onmouseup = () => {
+            using = false
+        }
     }
-
-    canvas.onmouseup = () => {
-        using = false
-    }
+    
 }
 
 
