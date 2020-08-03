@@ -108,8 +108,8 @@ function drawLine (x1, y1, x2, y2) {
 
 /***画笔颜色***/
 black.onclick = () => {
-    ctx.fillStyle = 'red'
-    ctx.strokeStyle = 'red'
+    ctx.fillStyle = 'black'
+    ctx.strokeStyle = 'black'
     black.classList.add('active')
     green.classList.remove('active')
     blue.classList.remove('active')
