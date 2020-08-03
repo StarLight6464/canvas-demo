@@ -1,11 +1,12 @@
+
 let canvas = document.getElementById("canvas")
 let actions = document.getElementById("actions")
 let ctx = canvas.getContext("2d")
 autoSetCanvasSize(canvas)
-ctx.fillStyle = 'red'
-ctx.strokeStyle = 'red'
-// ctx.lineWidth = 10
-// ctx.lineCap = 'round'
+ctx.fillStyle = 'black'
+ctx.strokeStyle = 'black'
+ctx.lineCap = 'round'
+let lineWidth = 2
 
 listenToMouse(canvas)
 
@@ -100,17 +101,27 @@ function listenToMouse(canvas) {
 function drawLine (x1, y1, x2, y2) {
     ctx.beginPath()
     ctx.moveTo(x1, y1)
+    ctx.lineWidth = lineWidth
     ctx.lineTo(x2, y2)
     ctx.stroke()
 }
 
 /***画笔颜色***/
+black.onclick = () => {
+    ctx.fillStyle = 'red'
+    ctx.strokeStyle = 'red'
+    black.classList.add('active')
+    green.classList.remove('active')
+    blue.classList.remove('active')
+    red.classList.remove('active')
+}
 red.onclick = () => {
     ctx.fillStyle = 'red'
     ctx.strokeStyle = 'red'
     green.classList.remove('active')
-    blu.classList.remove('active')
+    blue.classList.remove('active')
     red.classList.add('active')
+    black.classList.remove('active')
 }
 green.onclick = () => {
     ctx.fillStyle = 'green'
@@ -118,6 +129,7 @@ green.onclick = () => {
     red.classList.remove('active')
     blue.classList.remove('active')
     green.classList.add('active')
+    black.classList.remove('active')
 }
 blue.onclick = () => {
     ctx.fillStyle = 'blue'
@@ -125,8 +137,29 @@ blue.onclick = () => {
     green.classList.remove('active')
     red.classList.remove('active')
     blue.classList.add('active')
+    black.classList.remove('active')
 }
-/****画笔 橡皮擦****/
+
+/***画笔粗细***/
+thin.onclick = () => {
+    lineWidth = 2
+    thin.classList.add('change')
+    middle.classList.remove('change')
+    thick.classList.remove('change')
+}
+middle.onclick = () => {
+    lineWidth = 4
+    thin.classList.remove('change')
+    middle.classList.add('change')
+    thick.classList.remove('change')
+}
+thick.onclick = () => {
+    lineWidth = 6
+    thin.classList.remove('change')
+    middle.classList.remove('change')
+    thick.classList.add('change')
+}
+/****画笔 橡皮擦 清空 下载****/
 
 let eraserEnabled = false
 pen.onclick = () => {
@@ -139,7 +172,17 @@ eraser.onclick = () => {
     eraser.classList.add('active')
     pen.classList.remove('active')
 }
-
+clear.onclick = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+}
+save.onclick = () => {
+    let url = canvas.toDataURL("img/png")
+    let a = document.createElement('a')
+    document.body.appendChild(a)
+    a.href = url
+    a.download = 'img'
+    a.click()
+}
 /***Canvas***/
 
 function autoSetCanvasSize(canvas) {
