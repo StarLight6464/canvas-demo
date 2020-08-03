@@ -2,9 +2,8 @@ let canvas = document.getElementById("canvas")
 let actions = document.getElementById("actions")
 let ctx = canvas.getContext("2d")
 autoSetCanvasSize(canvas)
-
-ctx.fillStyle = "black"
-ctx.strokeStyle = 'none'
+ctx.fillStyle = 'red'
+ctx.strokeStyle = 'red'
 // ctx.lineWidth = 10
 // ctx.lineCap = 'round'
 
@@ -105,17 +104,40 @@ function drawLine (x1, y1, x2, y2) {
     ctx.stroke()
 }
 
-/****橡皮擦****/
+/***画笔颜色***/
+red.onclick = () => {
+    ctx.fillStyle = 'red'
+    ctx.strokeStyle = 'red'
+    green.classList.remove('active')
+    blu.classList.remove('active')
+    red.classList.add('active')
+}
+green.onclick = () => {
+    ctx.fillStyle = 'green'
+    ctx.strokeStyle = 'green'
+    red.classList.remove('active')
+    blue.classList.remove('active')
+    green.classList.add('active')
+}
+blue.onclick = () => {
+    ctx.fillStyle = 'blue'
+    ctx.strokeStyle = 'blue'
+    green.classList.remove('active')
+    red.classList.remove('active')
+    blue.classList.add('active')
+}
+/****画笔 橡皮擦****/
 
 let eraserEnabled = false
-
+pen.onclick = () => {
+    eraserEnabled = false
+    pen.classList.add('active')
+    eraser.classList.remove('active')
+}
 eraser.onclick = () => {
     eraserEnabled = true
-    actions.className = 'actions x'
-}
-brush.onclick = () => {
-    eraserEnabled = false
-    actions.className = 'actions'
+    eraser.classList.add('active')
+    pen.classList.remove('active')
 }
 
 /***Canvas***/
